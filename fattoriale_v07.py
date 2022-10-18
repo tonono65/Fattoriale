@@ -18,6 +18,28 @@ INDEBUG = False
 TRACE = True
 
 
+# ------------------ conta_fattore_in_fattoriale -----------------------------
+
+def conta_fattore_in_fattoriale(fattoriale, fattore):
+    """
+     Determino quanti fattori  ci sono nel fattoriale       
+     Moltiplicati per altrettanti fattori 2,                
+     determinano gli zeri del fattoriale.                    
+    """
+    conta_fattore = 0
+
+    if fattoriale <= 0:
+        print("fattore incongrunete - deve essere > 0")
+    else:
+        i = fattoriale
+        while i >= fattore:
+            conta_fattore += i // fattore
+            i = i // fattore
+        # end while
+    # end else
+    return conta_fattore
+
+
 # ------------------ main -------------------------------------------------
 def main():
     if INDEBUG:
@@ -30,15 +52,15 @@ def main():
           "*********************** CALCOLO FATTORIA ***********************************************" + "\n" +
           "******************************************************************   ìnizio log " + time.strftime("%H:%M:%S") +
           "\n")
-    
+
     # *************************************************************************
     # input dell'intero per cui calcolare il fattoirale
-    
+
     fattoriale = int(input("Numero di cui calcolare il fattoriale: "))
     # *************************************************************************
-    
-    
-    #Rilevo il tempo di inizio elaborazione
+
+
+    # Rilevo il tempo di inizio elaborazione
     t0 = time.time()
     t0_localtime = time.localtime(t0)
     t0_str = time.strftime("%d-%m-%Y, %H:%M:%S", t0_localtime)
@@ -51,8 +73,6 @@ def main():
     
     # dichiaro e inizializzo le valiabili
     fattorialeRisultato = [1]
-    contaZeriTotale = 0
-    contaCinque = 0
     
     # ###################################################### #
     # Determino quanti fattori 5 ci sono nel fattoriale      # 
@@ -60,11 +80,7 @@ def main():
     # determinano gli zeri del fattoriale.                   # 
     # ###################################################### #
     
-    i = fattoriale
-    while i >= 5:
-        contaCinque += i // 5
-        i = i // 5
-
+    contaCinque = conta_fattore_in_fattoriale(fattoriale, 5)
     contaZeriTotale = contaCinque
     
     if INDEBUG:
