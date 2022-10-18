@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Wed Apr  11 
-
 @author: Alessandro Minazzato
 """
 # -----------------------------------------------------------------------------
@@ -9,11 +8,9 @@ Created on Wed Apr  11
 import sys
 # setting path
 sys.path.append('d:/PROGETTI/Python/myLibraries')
-
 from logPython import *
 import time
 from datetime import datetime
-
 
 # ----------------COSTANTI ----------------------------------------------------
 
@@ -21,9 +18,7 @@ INDEBUG = False
 TRACE = True
 
 
-# ----------------COSTANTI ----------------------------------------------------
-    
-
+# ------------------ main -------------------------------------------------
 def main():
     if INDEBUG:
         print("")
@@ -143,7 +138,6 @@ def main():
     
     logMe("Tempo di calcolo del fattoriale di " + str(fattoriale) +"!: " 
           + str(ore) + " ore " + str(minuti) + " minuti " + str(secondi) + " secondi")
-
 
 
 def moltiplica(Moltiplicando, Moltiplicatore, base):
