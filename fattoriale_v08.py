@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr  11 
+Created on Wed Oct  26 2022 
 @author: Alessandro Minazzato
 """
 # -----------------------------------------------------------------------------
@@ -8,7 +8,7 @@ Created on Wed Apr  11
 import sys
 # setting path
 sys.path.append('d:/PROGETTI/Python/myLibraries')
-from logPython import *
+from logPython import log_me
 import time
 from datetime import datetime
 
@@ -16,6 +16,13 @@ from datetime import datetime
 
 INDEBUG = False
 TRACE = False
+
+# intervallo per stampa risultati intermedi if TRACE
+PASSO = 500
+# definisco la base per la rappresentazione di moltiplicando e moltiplicatore 
+# mille miliardi
+BASE = 1000000000000                      
+
 
 
 # ------------------ conta_fattore_in_fattoriale -----------------------------
@@ -53,7 +60,7 @@ def main():
         print("*********************** IN DEBUG ***********************************")
         print("*********************** IN DEBUG ***********************************")
         print("")
-    logMe("****************************************************************************************" + "\n" +  
+    log_me("****************************************************************************************" + "\n" +  
           "*********************** CALCOLO FATTORIA ***********************************************" + "\n" +
           "******************************************************************   ìnizio log " + time.strftime("%H:%M:%S") +
           "\n")
@@ -70,11 +77,6 @@ def main():
     t0_localtime = time.localtime(t0)
     t0_str = time.strftime("%d-%m-%Y, %H:%M:%S", t0_localtime)
 
-    # *************************************************************************
-    # definisco la base per la rappresentazione di moltiplicando e moltiplicatore 
-    
-    base = 1000000000000                      
-    # mille miliardi
     # *************************************************************************
     
     # dichiaro e inizializzo le valiabili
@@ -98,29 +100,29 @@ def main():
     # ###################################################### #
     for i in range(2, fattoriale + 1,1):
         
-        #stampo ogni 500 moltiplicatori per controllo avanzamento
+        # chiamata alla funzione moltiplica
+        fattorialeRisultato = moltiplica(fattorialeRisultato, i, BASE)         
+        
+        # if TRACE stampo ogni PASSO moltiplicatori per controllo avanzamento
         if TRACE:
-            if i % 500 == 0:
+            if i % PASSO == 0:
                 # Rilevo il tempo ad ogni stampa di TRACE
                 t1 = time.time()
                 t1_localtime = time.localtime(t1)
                 t1_str = time.strftime("%d-%m-%Y, %H:%M:%S", t1_localtime)
                 print("i: " + str(i) + "  " + t1_str + "\n")        
-                logMe("i: " + str(i) + "  " + t1_str + "\n")        
-    
-        # chiamata alla funzione moltiplica se i <> 1
-        if i != 1:
-            fattorialeRisultato = moltiplica(fattorialeRisultato, i, base)         
+                log_me("i: " + str(i) + "  " + t1_str + "\n")        
+            
+      
+        
     
     
     if INDEBUG:
-        print("FattorialeRisultato: ",str(fattorialeRisultato))
+        print("FattorialeRisultato: ", str(fattorialeRisultato))
         print("")
     
-    fattorialeRisultatoStr = convertiBase10(fattorialeRisultato, base)
+    fattorialeRisultatoStr = convertiBase10(fattorialeRisultato, BASE)
     
-    # Aggiungo una stringa di contaZeriTotale zeri a fattorialerisulatoStr
-    fattorialeRisultatoStr = fattorialeRisultatoStr + "0" * contaZeriTotale
     # Rilevo la prima cifra significativa (a dx di fattorialerisulatoStr
     primaCifraSignificativa = fattorialeRisultatoStr.rstrip("0")[-1]
     
@@ -141,25 +143,25 @@ def main():
     print("Prima cifra significativa : " + primaCifraSignificativa)
     print("Tempo di calcolo: " + str(ore) + " ore " + str(minuti) + " minuti " + str(secondi) + " secondi")
 
-    logMe(str(fattoriale) + "! = " + fattorialeRisultatoStr + "\n")
-    logMe("Lunghezza stringa di " + str(fattoriale) + "! = " + str(len(fattorialeRisultatoStr)) + "\n")
-    logMe("Numero zeri finali        : " + str(contaZeriTotale) + "\n")
-    logMe("Prima cifra significativa : " + primaCifraSignificativa + "\n")
-    logMe("Inizio elaborazione: " + t0_str)    
-    logMe("Fine elaborazione  : " + t1_str)
+    log_me(str(fattoriale) + "! = " + fattorialeRisultatoStr + "\n")
+    log_me("Lunghezza stringa di " + str(fattoriale) + "! = " + str(len(fattorialeRisultatoStr)) + "\n")
+    log_me("Numero zeri finali        : " + str(contaZeriTotale) + "\n")
+    log_me("Prima cifra significativa : " + primaCifraSignificativa + "\n")
+    log_me("Inizio elaborazione: " + t0_str)    
+    log_me("Fine elaborazione  : " + t1_str)
     
-    logMe("Tempo di calcolo del fattoriale di " + str(fattoriale) +"!: " 
+    log_me("Tempo di calcolo del fattoriale di " + str(fattoriale) +"!: " 
           + str(ore) + " ore " + str(minuti) + " minuti " + str(secondi) + " secondi")
+
 
 
 def moltiplica(Moltiplicando, Moltiplicatore, base):
     
-    
     if INDEBUG:
         print("Moltiplicando: ", str(Moltiplicando))
         print("Moltiplicatore: ", str(Moltiplicatore))
-        logMe("Moltiplicando: " + str(Moltiplicando))
-        logMe("Moltiplicatore: " + str(Moltiplicatore))
+        log_me("Moltiplicando: " + str(Moltiplicando))
+        log_me("Moltiplicatore: " + str(Moltiplicatore))
 
     
     
@@ -172,38 +174,42 @@ def moltiplica(Moltiplicando, Moltiplicatore, base):
     # nelle colonna [j] c'è il valore da moltiplicare per base**j
     
     matrice.append(Moltiplicando)
-    
     if INDEBUG:
         print("Moltiplicando: ", str(Moltiplicando))
         print("Matrice [0]  : ", str(matrice[0]))
 
    # inserisco il moltiplicatore in matrice[1]
     matrice.append(Moltiplicatore)
-    
     if INDEBUG:
         print("Moltiplicatore: ", str(Moltiplicatore))
         print("Matrice [1]  : ", str(matrice[1]))
 
     
-    # predispongo matrice[2] come riga dei riusltati
+    # predispongo matrice[2] come riga dei risultati
     matrice.append([])
     
     # azzero la variabile che contiene il resto delle moltiplicazioni
     restoMoltiplicazione = 0
     
     # ciclo della moltiplicazione
-    # si noti che i risultati vanno da sx a dx:
+    # si noti che sia in matrice[0] (moltiplicandoi sia in matrice[2] (risultati), 
+    # i risultati vanno da sx a dx:
     # nelle colonna [j] c'è il valore da moltiplicare per base**j
     for j in range(len(Moltiplicando)):
-        matrice[2].append(( matrice[0][j] * Moltiplicatore  + restoMoltiplicazione) % base)
-        restoMoltiplicazione = (matrice[0][j] * Moltiplicatore  + restoMoltiplicazione) // base
-        # metto il resto che avanza dopo l'ultima moltiplicazione
-        #della cifra del moltiplicando nella posizione +j+1
-    if restoMoltiplicazione != 0:
-        matrice[2].append(restoMoltiplicazione)
-        
-  
-        
+        valore_prodotto = matrice[0][j] * Moltiplicatore  + restoMoltiplicazione
+        matrice[2].append(valore_prodotto % base)
+        restoMoltiplicazione = valore_prodotto // base
+    
+    # gestisco  il resto che avanza dopo l'ultima moltiplicazione
+    #della cifra del moltiplicando nelle posizioni successive alla posizione j
+    while restoMoltiplicazione > 0:
+        matrice[2].append(restoMoltiplicazione % base)
+        restoMoltiplicazione = restoMoltiplicazione // base  
+     
+    if INDEBUG:
+        print("Matrice [2]  : ", str(matrice[2]))
+        print("")
+    
     # restituisco matrice[2]
     return(matrice[2])
 
