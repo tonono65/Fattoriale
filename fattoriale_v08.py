@@ -22,18 +22,17 @@ TRACE = False
 PASSO = 500
 
 # definisco la base per la rappresentazione di moltiplicando e moltiplicatore 
-# mille miliardi
-BASE = 1000000000000                      
+# 1*10e64
+BASE = 10000000000000000000000000000000000000000000000000000000000000000                      
 
 
 # ------------------ main -------------------------------------------------
 def main():
-    if INDEBUG:
-        print("")
-        print("*********************** IN DEBUG ***********************************")
-        print("*********************** IN DEBUG ***********************************")
-        print("*********************** IN DEBUG ***********************************")
-        print("")
+    print("\n" * 3)
+    print("****************************************************************************************" + "\n" +  
+          "*********************** CALCOLO FATTORIA ***********************************************" + "\n" +
+          "******************************************************************   ìnizio log " + time.strftime("%H:%M:%S") +
+          "\n")
     log_me("****************************************************************************************" + "\n" +  
           "*********************** CALCOLO FATTORIA ***********************************************" + "\n" +
           "******************************************************************   ìnizio log " + time.strftime("%H:%M:%S") +
@@ -117,9 +116,7 @@ def main():
     log_me("Prima cifra significativa : " + primaCifraSignificativa + "\n")
     log_me("Inizio elaborazione: " + t0_str)    
     log_me("Fine elaborazione  : " + t1_str)
-    
-    log_me("Tempo di calcolo del fattoriale di " + str(fattoriale) +"!: " 
-          + str(ore) + " ore " + str(minuti) + " minuti " + str(secondi) + " secondi")
+    log_me("Tempo di calcolo: " + str(ore) + " ore " + str(minuti) + " minuti " + str(secondi) + " secondi")
 
 
 
