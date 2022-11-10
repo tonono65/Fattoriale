@@ -12,6 +12,7 @@ from logPython import log_me, logMe
 
 
 
+
 # ------------------ conta_fattore_in_fattoriale -----------------------------
 
 def conta_fattore_in_fattoriale(fattoriale, fattore):
@@ -114,10 +115,55 @@ def converti_in_base_10(vettoreInt, base, INDEBUG):
         
     return(str(numeroBase10))
             
+
+def calcola_fattori(N, limite, INDEBUG):
+    fattori = []
+    fattori_con_estremi = []
+    n1 = N
+    n2 = 1
+    while n1 >= n2:
+        x = 1
+        while (x * n1 <= limite) and (n1 >= n2):
+            x = x * n1
+            n1 -= 1    
+        while (x * n2 <= limite) and (n1 >= n2):
+            x = x * n2
+            n2 += 1
+        fattori.append(x)
+        fattori_con_estremi.append([x, n1+1, n2-1])
+
+    if (len(fattori) % 2) != 0:
+        fattori.append(1)
+        fattori_con_estremi.append([1, 0, 0])
+    
+                
+    if INDEBUG:
+        for i in range(len(fattori)):
+            print("n1: " + str(fattori_con_estremi[i][1]) + "\t\tn2: " + str(fattori_con_estremi[i][2]) + "\t\tfattore: " + str(float(fattori_con_estremi[i][0])))
+        
+    return(fattori, len(fattori))
+            
     
 if __name__ == "__main__":
-    result = moltiplica([0, 5], 20, 10)
+    result = moltiplica([0, 5], 20, 10, True)
     print("50 * 20", result)
 
-    result = moltiplica([0, 0, 5], 23, 10)
+    result = moltiplica([0, 0, 5], 23, 10, True)
     print("500 * 23", result)
+
+    print()
+    print("FATTORI DI 7)")
+    calcola_fattori(7, 10000000**32, True)
+
+    print()
+    print("FATTORI DI 100)")
+    calcola_fattori(100, 10000000**32, True)
+
+    print()
+    print("FATTORI DI 1.000)")
+    calcola_fattori(1000, 10000000**32, True)
+
+    print()
+    print("FATTORI DI 2.000)")
+    calcola_fattori(2000, 10000000**32, True)
+
